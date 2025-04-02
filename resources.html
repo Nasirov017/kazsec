@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Акимат - Административная панель</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background-color: #343a40;
+            color: white;
+        }
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .sidebar .nav-link:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .sidebar .nav-link.active {
+            color: white;
+            background-color: #007bff;
+        }
+        .status-badge {
+            font-size: 0.8rem;
+            padding: 0.35rem 0.65rem;
+        }
+        .complaint-card {
+            transition: all 0.3s;
+            margin-bottom: 1rem;
+        }
+        .complaint-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .department-badge {
+            font-size: 0.75rem;
+        }
+        #newComplaintsList {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Сайдбар -->
+            <div class="col-md-2 sidebar p-0">
+                <div class="p-3">
+                    <h4 class="text-center mb-4">Акимат ЖЖҚ</h4>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                <i class="bi bi-house-door me-2"></i>Басты бет
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-list-check me-2"></i>Шағымдар
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-people me-2"></i>Қызметкерлер
+                            </a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <a class="nav-link text-danger" href="#">
+                                <i class="bi bi-box-arrow-right me-2"></i>Шығу
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Основное содержимое -->
+            <div class="col-md-10 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Жаңа шағымдар</h2>
+                    <div class="badge bg-primary rounded-pill">Жаңа: 3</div>
+                </div>
+
+                <!-- Список новых жалоб -->
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div id="newComplaintsList">
+                            <!-- Жалоба 1 -->
+                            <div class="complaint-card p-3 border-bottom">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <span class="badge bg-primary status-badge">Жаңа</span>
+                                        <span class="badge bg-secondary department-badge ms-2">Көлік</span>
+                                    </div>
+                                    <small class="text-muted">№Ш-456789 | 20.04.2023 14:30</small>
+                                </div>
+                                <h5 class="card-title mt-2">Автобус кешігіп жүр</h5>
+                                <p class="card-text">№45 автобус әрдайым кешігіп жүр, күнделікті 20-30 минут кешігуі...</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <small class="text-muted">Азамат: Нұрлан Қ.</small>
+                                        <small class="text-muted d-block">Тел: +7 777 123 4567</small>
+                                        <small class="text-muted">Мекен-жай: Абай көшесі, 12</small>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-sm btn-success me-1" onclick="acceptComplaint('Ш-456789')">
+                                            <i class="bi bi-check-circle"></i> Қабылдау
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#reassignModal" data-complaint-id="Ш-456789">
+                                            <i class="bi bi-arrow-right"></i> Жіберу
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Жалоба 2 -->
+                            <div class="complaint-card p-3 border-bottom">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <span class="badge bg-primary status-badge">Жаңа</span>
+                                        <span class="badge bg-secondary department-badge ms-2">ЖКХ</span>
+                                    </div>
+                                    <small class="text-muted">№Ш-456788 | 20.04.2023 13:45</small>
+                                </div>
+                                <h5 class="card-title mt-2">Қысқы уақытта жылу жетіспейді</h5>
+                                <p class="card-text">Тұрғын үйде қысқы уақытта температура 18°C-тан жоғары болмайды...</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <small class="text-muted">Азамат: Айгүл М.</small>
+                                        <small class="text-muted d-block">Тел: +7 777 765 4321</small>
+                                        <small class="text-muted">Мекен-жай: Достық көшесі, 34</small>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-sm btn-success me-1" onclick="acceptComplaint('Ш-456788')">
+                                            <i class="bi bi-check-circle"></i> Қабылдау
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#reassignModal" data-complaint-id="Ш-456788">
+                                            <i class="bi bi-arrow-right"></i> Жіберу
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Жалоба 3 (ваша тестовая жалоба) -->
+                            <div class="complaint-card p-3 border-bottom">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <span class="badge bg-primary status-badge">Жаңа</span>
+                                        <span class="badge bg-secondary department-badge ms-2">Білім</span>
+                                    </div>
+                                    <small class="text-muted">№Ш-456787 | 20.04.2023 12:15</small>
+                                </div>
+                                <h5 class="card-title mt-2">Мектеп алаңының жөндеуі</h5>
+                                <p class="card-text">№12 мектептің ауласындағы асфальт қатты бүлінген, балалар жүріп жарақат алуы мүмкін...</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <small class="text-muted">Азамат: Ерлан С.</small>
+                                        <small class="text-muted d-block">Тел: +7 777 555 4433</small>
+                                        <small class="text-muted">Мекен-жай: Тәуелсіздік көшесі, 56</small>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-sm btn-success me-1" onclick="acceptComplaint('Ш-456787')">
+                                            <i class="bi bi-check-circle"></i> Қабылдау
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#reassignModal" data-complaint-id="Ш-456787">
+                                            <i class="bi bi-arrow-right"></i> Жіберу
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для перенаправления жалобы -->
+    <div class="modal fade" id="reassignModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Шағымды басқа бөлімге жіберу</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="currentComplaintId">
+                    <div class="mb-3">
+                        <label for="reassignDepartment" class="form-label">Бөлімді таңдаңыз</label>
+                        <select class="form-select" id="reassignDepartment">
+                            <option value="transport">Көлік</option>
+                            <option value="housing">Тұрғын үй-коммуналдық шаруашылық</option>
+                            <option value="education">Білім</option>
+                            <option value="health">Денсаулық сақтау</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reassignComment" class="form-label">Түсініктеме</label>
+                        <textarea class="form-control" id="reassignComment" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Бас тарту</button>
+                    <button type="button" class="btn btn-primary" onclick="reassignComplaint()">Жіберу</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Обработка принятия жалобы
+        function acceptComplaint(complaintId) {
+            alert('Шағым №' + complaintId + ' қабылданды және сізге тағайындалды!');
+            // Здесь будет код обновления статуса на сервере
+            // location.reload(); // Перезагрузка страницы для обновления списка
+        }
+
+        // Обработка перенаправления жалобы
+        function reassignComplaint() {
+            const complaintId = document.getElementById('currentComplaintId').value;
+            const department = document.getElementById('reassignDepartment').value;
+            const comment = document.getElementById('reassignComment').value;
+            
+            alert('Шағым №' + complaintId + ' "' + department + '" бөліміне жіберілді!');
+            
+            // Закрываем модальное окно
+            const modal = bootstrap.Modal.getInstance(document.getElementById('reassignModal'));
+            modal.hide();
+            
+            // Здесь будет AJAX-запрос к серверу
+            // fetch('/api/complaints/' + complaintId + '/reassign', {
+            //     method: 'POST',
+            //     body: JSON.stringify({ department, comment }),
+            //     headers: { 'Content-Type': 'application/json' }
+            // })
+            // .then(response => response.json())
+            // .then(data => location.reload());
+        }
+
+        // Инициализация модального окна
+        const reassignModal = document.getElementById('reassignModal');
+        reassignModal.addEventListener('show.bs.modal', function(event) {
+            const button = event.relatedTarget;
+            const complaintId = button.getAttribute('data-complaint-id');
+            document.getElementById('currentComplaintId').value = complaintId;
+        });
+    </script>
+</body>
+</html>

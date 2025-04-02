@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Әкімшілік панель</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            text-align: center;
+            font-size: 20px;
+        }
+        .task-list {
+            margin-top: 30px;
+        }
+        .task-item {
+            background: #fff;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .status {
+            font-weight: bold;
+            color: green;
+        }
+        .completed {
+            color: red;
+        }
+        .task-item button {
+            background-color: #28a745;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .task-item button:hover {
+            background-color: #218838;
+        }
+        .stats {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Әкімшілік панель</h2>
+
+        <div class="task-list" id="adminTaskList">
+            <!-- Шағымдар мұнда көрсетіледі -->
+        </div>
+
+        <div class="stats">
+            <h3>Статистика</h3>
+            <p id="pendingTasks">Қаралуда: 0</p>
+            <p id="completedTasks">Аяқталды: 0</p>
+        </div>
+    </div>
+
+    <script>
+        let pendingCount = 0;
+        let completedCount = 0;
+
+        // Шағымды бекіту
+        function addTask(complaintText, department) {
+            const taskList = document.getElementById('adminTaskList');
+            const taskItem = document.createElement('div');
+            taskItem.classList.add('task-item');
+            const timestamp = new Date().toLocaleString();
+
+            taskItem.innerHTML = `
+                <div>
+                    <strong>${department}:</strong> ${complaintText} <br>
+                    <small>${timestamp}</small> - <span class="status">Қаралуда</span>
+                </div>
+                <button onclick="resolveComplaint(this)">Аяқтау</button>
+            `;
+            
+            taskList.appendChild(taskItem);
+
+            pendingCount++;
+            updateStats();
+        }
+
+        // Шағымды аяқтау
+        function resolveComplaint(button) {
+            const taskItem = button.parentElement;
+            const statusElement = taskItem.querySelector(".status");
+            const timestamp = new Date().toLocaleString();
+            
+            statusElement.textContent = "Аяқталды";
+            statusElement.classList.add('completed');
+            button.remove();
+
+            completedCount++;
+            pendingCount--;
+            updateStats();
+        }
+
+        // Статистика жаңарту
+        function updateStats() {
+            document.getElementById('pendingTasks').textContent = `Қаралуда: ${pendingCount}`;
+            document.getElementById('completedTasks').textContent = `Аяқталды: ${completedCount}`;
+        }
+
+        // Мысал үшін шағымдарды автоматты түрде қосу
+        addTask("Көлік мәселесі", "Көлік");
+        addTask("Цифрландыру мәселесі", "Цифрландыру");
+        addTask("Тұрғын үй-коммуналдық шаруашылығы");
+    </script>
+</body>
+</html>
+
